@@ -6,6 +6,19 @@ const logger = require('morgan')
 
 const indexRouter = require('./routes/index')
 const usersRouter = require('./routes/users')
+const clubRouter = require('./routes/club')
+
+const admin = require('firebase-admin');
+
+require("firebase/firestore")
+
+const serviceAccount = require('../serviceaccount.json')
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+  
+
+});
 
 const app = express()
 
@@ -16,6 +29,7 @@ app.use(cookieParser())
 
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
+app.use ('/club', clubRouter)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
