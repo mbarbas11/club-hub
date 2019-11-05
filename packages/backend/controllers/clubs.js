@@ -21,7 +21,7 @@ async function addClub(data){
 }
 
 async function editClub(club_id, data){  //passing through request body and clubid for specific doc.
-    const {bannerURL = "https:/deaultURL"} = data;
+    //const {bannerURL = "https:/deaultURL"} = data;
     console.log('id here: ' + club_id);
     console.log({body: data})
     const db = admin.firestore();
@@ -34,12 +34,12 @@ async function editClub(club_id, data){  //passing through request body and club
         name : data.name,
         active: data.active,            //already required, dont need to handle
         description: data.description,
-        avatarURL: undefined ? data.avatarURL : 'None',
-        bannerURL: undefined ? data.bannerURL : 'None',
-        officers: undefined ? data.officers: 'None',      //before updating, checks if undefined
-        gallery: undefined ? data.gallery: 'None',        //undefined vals dont work for update
-        meetingTime: undefined ? data.meetingTime: 'None',
-        favoriteUsers: undefined ? data.favoriteUsers: 'None'
+        avatarURL: data.avatarURL ? data.avatarURL : null,
+        bannerURL: data.bannerURL ? data.bannerURL : null,
+        officers: data.officers ? data.officers: null,      //before updating, checks if undefined
+        gallery: data.gallery ? data.gallery: null,        //undefined vals dont work for update
+        meetingTime: data.meetingTime ? data.meetingTime: null,
+        favoriteUsers: data.favoriteUsers ? data.favoriteUsers: null
     })
     //console.log(club);
     return club;
@@ -57,6 +57,7 @@ async function getAllClubs(){
     console.log(allClubs);
     return allClubs;
 }
+
 
 
 //module.export = addClub;
