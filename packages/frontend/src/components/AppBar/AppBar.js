@@ -1,10 +1,13 @@
 import React from 'react'
 import styles from './AppBar.module.css'
 import { Link } from 'react-router-dom'
+import { SearchBar } from '@clubhub/components'
+
 
 const AppBar = () => {
   return (
     <div className={styles.root}>
+      <SearchBar/>
       <div>
         <ul>
           <li>

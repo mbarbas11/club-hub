@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './App.module.css'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { AppBar } from '@clubhub/components'
-import {
+import { 
   HomePage,
   ClubPage,
   NotFoundPage,

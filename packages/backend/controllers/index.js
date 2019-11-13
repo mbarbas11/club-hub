@@ -1,0 +1,1 @@
+exports.clubControllers = require('./clubs')
