@@ -26,12 +26,13 @@ router.put("/", (req, res) => {
     });
 });
 
-router.get("/", res => {
+router.get("/", (req, res) => {
   //getAllClubs
   getAllClub()
     .then(result => {
-      res.status(200).send("Club received");
-      return true;
+
+      res.send(result);
+      return;
     })
     .catch(e => {
       console.log("error:", e, e.message);
