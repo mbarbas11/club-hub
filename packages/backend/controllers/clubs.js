@@ -18,7 +18,7 @@ async function addClub(data) {
       active: data.active, //three attributes that are required in schema
       description: data.description
     });
-    return 'successful'; //in case wanted to do stuff after
+    return "successful"; //in case wanted to do stuff after
   }
 }
 
@@ -54,7 +54,32 @@ async function editClub(club_id, data) {
         .update(new_data);
       return newClub;
     });
-  return 'successful';
+  return "successful";
+}
+
+async function getClub(club_id) {
+  //gets single club
+  const db = admin.firestore();
+  const doc = await db
+    .collection("clubs")
+    .doc(club_id)
+    .get();
+
+  if (doc.exists) {
+    //handling error iff ID does not exist..firestore doesnt catch doc not found error
+    try {
+      await doc.ref.get();
+      return "successful";
+    } catch (error) {
+      return {
+        error
+      };
+    }
+  } else {
+    return {
+      error: "Id does not exist"
+    };
+  }
 }
 
 async function getAllClubs() {
@@ -66,7 +91,6 @@ async function getAllClubs() {
   });
   console.log(allClubs);
   return allClubs;
-  
 }
 
 async function deleteClub(club_id) {
@@ -80,16 +104,16 @@ async function deleteClub(club_id) {
     //handling error iff ID does not exist..firestore doesnt catch doc not found error
     try {
       await doc.ref.delete();
-      return 'successful'
+      return "successful";
     } catch (error) {
       return {
         error
-      }
+      };
     }
   } else {
     return {
-      error: 'Id does not exist'
-    }
+      error: "Id does not exist"
+    };
   }
 }
 
@@ -97,3 +121,4 @@ module.exports.deleteClub = deleteClub;
 module.exports.addClub = addClub;
 module.exports.getAllClubs = getAllClubs;
 module.exports.editClub = editClub;
+module.exports.getClub = getClub;
