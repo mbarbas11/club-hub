@@ -18,7 +18,7 @@ async function addClub(data) {
       active: data.active, //three attributes that are required in schema
       description: data.description
     });
-    return newClub; //in case wanted to do stuff after
+    return 'successful'; //in case wanted to do stuff after
   }
 }
 
@@ -54,6 +54,7 @@ async function editClub(club_id, data) {
         .update(new_data);
       return newClub;
     });
+  return 'successful';
 }
 
 async function getAllClubs() {
@@ -65,6 +66,7 @@ async function getAllClubs() {
   });
   console.log(allClubs);
   return allClubs;
+  
 }
 
 async function deleteClub(club_id) {
@@ -76,9 +78,18 @@ async function deleteClub(club_id) {
 
   if (doc.exists) {
     //handling error iff ID does not exist..firestore doesnt catch doc not found error
-    return await doc.ref.delete();
+    try {
+      await doc.ref.delete();
+      return 'successful'
+    } catch (error) {
+      return {
+        error
+      }
+    }
   } else {
-    throw Error(`ID does not exist`);
+    return {
+      error: 'Id does not exist'
+    }
   }
 }
 
