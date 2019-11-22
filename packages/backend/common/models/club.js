@@ -1,5 +1,5 @@
-const Joi = require('@hapi/joi')
-const {id} = require('./user') 
+const Joi = require("@hapi/joi");
+const { id } = require("./user");
 
 const ClubSchema = Joi.object({
   id: id,
@@ -8,7 +8,9 @@ const ClubSchema = Joi.object({
 
   description: Joi.string().required(),
 
-  officers: Joi.array().items(id).min(1),
+  officers: Joi.array()
+    .items(id)
+    .min(1),
 
   meetingTime: Joi.object({
     day: Joi.string(),
@@ -23,9 +25,9 @@ const ClubSchema = Joi.object({
   bannerUrl: Joi.string(),
 
   active: Joi.boolean().required(),
-  
+
   //stores array of user ids that favorite club
   favoriteUsers: Joi.array().items(id)
-})
+});
 
-module.exports = ClubSchema
+module.exports = ClubSchema;
