@@ -15,7 +15,7 @@ router.post("/", (req, res) => {
   //addClub
   addClub(req.body)
     .then(result => {
-      if (result === "successful") {
+      if (result === "successfully added club") {
         res.send(result);
         return true;
       } else {
@@ -73,7 +73,7 @@ router.put("/:id", (req, res) => {
   //editClub
   editClub(req.params.id, req.body)
     .then(result => {
-      if (result === "successful") {
+      if (result === "successfully updated club") {
         res.send(result);
         return true;
       } else {
@@ -94,7 +94,7 @@ router.delete("/:id", (req, res) => {
   //deleteClub
   deleteClub(req.params.id)
     .then(result => {
-      if (result === "successful") {
+      if (result === "successfully deleted club") {
         res.send(result);
         return true;
       } else {
