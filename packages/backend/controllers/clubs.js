@@ -11,7 +11,10 @@ async function addClub(data) {
 
   const db = admin.firestore();
   if (result.error) {
-    throw Error(result.error.details.map(item => item.message).join(", ")); //joins errors, strips result.error of unwanted clutter
+    return({
+      error : result.error.details.map(item => item.message).join(", ") //joins errors, strips result.error of unwanted clutter
+    }) 
+      
   } else {
     let newClub = await db.collection("clubs").add({
       name: data.name,
@@ -23,38 +26,37 @@ async function addClub(data) {
 }
 
 async function editClub(club_id, data) {
-  let result = ClubSchema.validate(data, {
-    //editClub assumes that frontend will always update a club by sending a request of ALL properties
-    stripUnknown: true,
-    abortEarly: false //allows multiple errors to be thrown in error response
-  });
-  if (result.error) {
-    console.log("validation error:", result.error);
-    throw Error(result.error.details.map(item => item.message).join(", ")); //joins errors, strips result.error of unwanted clutter
+  // data = JSON.parse(data)
+  console.log(data)
+  for (const key in data) {
+  
+    if (!data[key]) {
+      console.log({data : data[key], key: key})
+      return {
+        error: "Invalid club data"
+      }
+    }
   }
 
   console.log("id here: " + club_id);
 
   const db = admin.firestore();
-
-  club_data = await db
-    .collection("clubs")
-    .doc(club_id)
-    .get()
-    .then(async snapshot => {
-      const new_data = snapshot.data(); //snapshot of data in club w/ club_id
-      for (const key in new_data) {
-        if (data[key] !== undefined) {
-          new_data[key] = data[key];
-        }
-      }
-      newClub = await db
+  let result;
+  await db
         .collection("clubs")
         .doc(club_id)
-        .update(new_data);
-      return newClub;
-    });
-  return "successful";
+        .update(data)
+        .then(() => {
+          result = "successful";
+          return;
+        })
+        .catch(e => {
+          result = e.message;
+          
+          return;
+        });
+
+    return result;
 }
 
 async function getClub(club_id) {
@@ -68,17 +70,14 @@ async function getClub(club_id) {
   if (doc.exists) {
     //handling error iff ID does not exist..firestore doesnt catch doc not found error
     try {
-      await doc.ref.get();
-      return "successful";
+      const club = await doc.ref.get();
+      return club.data();
     } catch (error) {
-      return {
-        error
-      };
+      console.log({error})
+      return null;
     }
   } else {
-    return {
-      error: "Id does not exist"
-    };
+    return null;
   }
 }
 
@@ -89,7 +88,6 @@ async function getAllClubs() {
   clubData.forEach(club => {
     allClubs.push({ ...club.data(), id: club.id }); //place id into collection of club data
   });
-  console.log(allClubs);
   return allClubs;
 }
 
@@ -107,7 +105,7 @@ async function deleteClub(club_id) {
       return "successful";
     } catch (error) {
       return {
-        error
+        error : error.message
       };
     }
   } else {
