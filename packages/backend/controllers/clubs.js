@@ -64,12 +64,11 @@ async function getClub(club_id) {
     .collection("clubs")
     .doc(club_id)
     .get();
-
   if (doc.exists) {
     //handling error iff ID does not exist..firestore doesnt catch doc not found error
     try {
       await doc.ref.get();
-      return "successful";
+      return doc.data();
     } catch (error) {
       return {
         error
