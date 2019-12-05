@@ -8,7 +8,7 @@ const ClubPage = () => {
   
   async function getClub() {
     const res = await fetch(
-      `http://localhost:3000/club/5feeOziQwuchCeg70tox`
+      clubEndpoint
     );
 
     console.log(clubID)
@@ -25,7 +25,7 @@ const ClubPage = () => {
     getClub();
   },[]);
 
-  return <div className={styles.root}>{JSON.stringify(club)}</div>;
+  return <div className={styles.root}>Club name: {club.name}</div>;
 };
 
 export default ClubPage;
