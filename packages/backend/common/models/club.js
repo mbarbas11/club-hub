@@ -27,7 +27,9 @@ const ClubSchema = Joi.object({
   active: Joi.boolean().required(),
 
   //stores array of user ids that favorite club
-  favoriteUsers: Joi.array().items(id)
+  favoriteUsers: Joi.array().items(id),
+
+  tags: Joi.array().items(Joi.string())
 });
 
 module.exports = ClubSchema;

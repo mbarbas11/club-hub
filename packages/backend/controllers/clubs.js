@@ -16,11 +16,7 @@ async function addClub(data) {
     }) 
       
   } else {
-    let newClub = await db.collection("clubs").add({
-      name: data.name,
-      active: data.active, //three attributes that are required in schema
-      description: data.description
-    });
+    let newClub = await db.collection("clubs").add(data);
     return "successful"; //in case wanted to do stuff after
   }
 }
