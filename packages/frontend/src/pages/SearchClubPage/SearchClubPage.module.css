@@ -1,5 +1,6 @@
 .root {
 	background-color: rgba(0, 0, 0, 0.054);
+	min-height: 101vh;
 }
 
 .wrapper {
@@ -7,6 +8,10 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+}
+
+.clubList {
+	width: 40vw;
 }
 
 .content {
@@ -19,8 +24,6 @@
 
 .clubCard {
 	margin-bottom: 20px;
-	width: 40vw;
-	height: 200px;
 	background-color: white;
 }
 
@@ -31,4 +34,30 @@
 
 .options > * {
 	margin-bottom: 50px;
+}
+
+.clubCardContent {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.clubCardContent img {
+	margin: 30px;
+}
+
+.clubCardInfo {
+	display: flex;
+	flex-direction: column;
+}
+
+.clubCardHeader {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-bottom: 15px;
+}
+
+.clubCardHeader h1 {
+	margin: 0;
 }

@@ -1,67 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	AppBar,
 	FormControl,
 	FormLabel,
 	FormControlLabel,
 	RadioGroup,
-	Radio
+	Radio,
+	Card,
+	CardContent,
+	Button,
+	CardActions
 } from '@material-ui/core';
 import { SearchBar } from '@clubhub/components';
 // import { icon } from '@material-ui/icons';
 import styles from './SearchClubPage.module.css';
 import { filterByKeyword, sortBy, filterByStatus } from './helpers';
-
-const MockData = [
-	{
-		id: 1,
-		name: 'codingHub',
-		favorite: 1000000000000000,
-		rating: 5,
-		tags: ['coding', 'cs']
-	},
-	{
-		id: 2,
-		name: 'V-Nation',
-		favorite: 10,
-		rating: 4.5,
-		tags: ['cultural', 'vietnam']
-	},
-	{
-		id: 3,
-		name: 'JCab',
-		favorite: 1,
-		rating: 4,
-		tags: ['cultural', 'japanesse']
-	},
-	{
-		id: 4,
-		name: 'CA',
-		favorite: 5,
-		rating: 4,
-		tags: ['cultural', 'chinesse']
-	}
-];
-
-console.log(sortBy(MockData, 'rating', 'asc'));
+import { getAllClubs } from '../../apis';
 
 const SearchClubPage = () => {
-	const [allClubs, setAllClubs] = useState(MockData);
-	const [displayClubs, setDisplayClubs] = useState([...allClubs]);
+	const [allClubs, setAllClubs] = useState([]);
+	const [displayClubs, setDisplayClubs] = useState([]);
 	const [searchValue, setSearchValue] = useState('');
 	const [statusValue, setStatusValue] = useState(true);
 
 	const handleChangeSearchBar = (e) => {
-		setSearchValue(e.target.value);
-		let newDisplayClubs = filterByKeyword(allClubs, e.target.value);
+		let newDisplayClubs = allClubs;
+		if (e.target.value !== '') {
+			newDisplayClubs = filterByKeyword(allClubs, e.target.value);
+		}
 		newDisplayClubs = filterByStatus(newDisplayClubs, statusValue);
+		setSearchValue(e.target.value);
 		setDisplayClubs(newDisplayClubs);
 	};
 
 	const handleChangeStatusOption = (e) => {
-		setStatusValue(e.target.value);
-		let newDisplayClubs = filterByStatus(allClubs, e.target.value);
-		newDisplayClubs = filterByKeyword(newDisplayClubs, searchValue);
+		let statusValue = e.target.value;
+		if (e.target.value === 'true') {
+			statusValue = true;
+		} else if (e.target.value === 'false') {
+			statusValue = false;
+		}
+		let newDisplayClubs = filterByStatus(allClubs, statusValue);
+		if (searchValue !== '') {
+			newDisplayClubs = filterByKeyword(newDisplayClubs, searchValue);
+		}
+		setStatusValue(statusValue);
 		setDisplayClubs(newDisplayClubs);
 	};
 
@@ -73,17 +56,28 @@ const SearchClubPage = () => {
 		setDisplayClubs(newDisplayClubs);
 	};
 
+	useEffect(() => {
+		getAllClubs()
+			.then((clubData) => {
+				setAllClubs([...clubData]);
+				setDisplayClubs([...clubData]);
+			})
+			.catch((err) => {
+				console.log('get club error', { err });
+			});
+	}, []);
+
 	const appBar = (
 		<AppBar className='appBar' position='static'>
-			<p>quan dep trai</p>
+			<p>CLUB HUB</p>
 		</AppBar>
 	);
 	const sortingOptions = (
 		<FormControl component='fieldset'>
 			<FormLabel component='legend'>Sort Options</FormLabel>
-			<RadioGroup defaultValue='rating,des' onChange={handleChangeSortOptions}>
+			<RadioGroup onChange={handleChangeSortOptions}>
 				<FormControlLabel
-					value={'rating,des'}
+					value={'rating,dec'}
 					control={<Radio />}
 					label='Rating: High to Low'
 				/>
@@ -93,7 +87,7 @@ const SearchClubPage = () => {
 					label='Rating: Low to High'
 				/>
 				<FormControlLabel
-					value={'favorite,des'}
+					value={'favorite,dec'}
 					control={<Radio />}
 					label='Favorite: High to Low'
 				/>
@@ -108,22 +102,54 @@ const SearchClubPage = () => {
 	const statusOptions = (
 		<FormControl component='fieldset'>
 			<FormLabel component='legend'>Status Options</FormLabel>
-			<RadioGroup defaultValue={true} onChange={handleChangeStatusOption}>
-				<FormControlLabel value={true} control={<Radio />} label='Active' />
-				<FormControlLabel value={false} control={<Radio />} label='Inactive' />
-				<FormControlLabel value={null} control={<Radio />} label='Active and Inactive' />
+			<RadioGroup defaultValue='both' onChange={handleChangeStatusOption}>
+				<FormControlLabel value={'both'} control={<Radio />} label='Active and Inactive' />
+				<FormControlLabel value='true' control={<Radio />} label='Active' />
+				<FormControlLabel value='false' control={<Radio />} label='Inactive' />
 			</RadioGroup>
 		</FormControl>
 	);
 	const clubList = (
 		<div className={styles.clubList}>
-			{displayClubs.map((club) => {
-				return (
-					<div className={styles.clubCard} key={club.id}>
-						this is club card {club.name}
-					</div>
-				);
-			})}
+			{displayClubs.length ? (
+				displayClubs.map((club) => {
+					console.log(club.name.length);
+					return (
+						// <div className={styles.clubCard} key={club.id}>
+						// 	this is club card {club.name}
+						// </div>
+						<Card className={styles.clubCard}>
+							<CardContent className={styles.clubCardContent}>
+								<img
+									src='http://thelcbridge.com/wp-content/uploads/2014/10/StudentClubsandOrgs.jpg'
+									width='120px'
+									height='120px'
+								/>
+								<div className={styles.clubCardInfo}>
+									<div className={styles.clubCardHeader}>
+										<h1>{club.name}</h1>
+										<Button variant='contained'>Join</Button>
+										<Button
+											className={styles.clubCardSeeMore}
+											variant='contained'
+											href={'http://localhost:3000/club/' + club.id}
+										>
+											See More
+										</Button>
+									</div>
+									<p>
+										{club.description.length > 200
+											? club.description.substring(0, 200) + '...'
+											: club.description}
+									</p>
+								</div>
+							</CardContent>
+						</Card>
+					);
+				})
+			) : (
+				<div>No Club Found</div>
+			)}
 		</div>
 	);
 

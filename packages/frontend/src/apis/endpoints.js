@@ -1,3 +1,3 @@
-const devBackendDomain = 'http://localhost:3000' // example
+const devBackendDomain = 'http://localhost:3001'; // example
 
-export const clubEndpoint = `${devBackendDomain}/club` // example
+export const clubEndpoint = `${devBackendDomain}/club`; // example
