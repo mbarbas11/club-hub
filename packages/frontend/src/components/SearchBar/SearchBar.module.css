@@ -1,20 +1,19 @@
-
 .SearchBar {
-    border: 1px solid white;
-    display: block;
-    float: right;
-    width: 285px;
-    height: 30px;
-    padding-left: 15px;
-    padding-right: 15px;
-    border-radius: 15px;
-    background-image: url("search_icon.png");
-    background-repeat: no-repeat;
-    background-position: 97% 50%;
+	border: 1px solid white;
+	display: block;
+	float: right;
+	width: 80%;
+	height: 50px;
+	padding-left: 15px;
+	padding-right: 15px;
+	border-radius: 15px;
+	background-image: url('search_icon.png');
+	background-repeat: no-repeat;
+	background-position: 97% 50%;
 
-    background-size: 16px;
+	background-size: 16px;
 }
 
-.SearchBar:focus{
-    outline: none;
+.SearchBar:focus {
+	outline: none;
 }

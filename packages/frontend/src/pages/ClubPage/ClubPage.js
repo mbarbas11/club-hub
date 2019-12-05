@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import styles from "./ClubPage.module.css";
 //import { clubEndpoint, clubID } from "../../apis/endpoints";
@@ -23,5 +24,6 @@ const ClubPage = props => {
 
 return <div className={styles.root}>ClubPage</div>; //JSON.stringify(club) // {club.name}...
 };
+
 
 export default ClubPage;

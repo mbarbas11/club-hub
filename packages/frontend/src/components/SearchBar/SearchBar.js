@@ -1,9 +1,15 @@
-import React from 'react'
-import styles from './SearchBar.module.css'
+import React from 'react';
+import styles from './SearchBar.module.css';
 
-const SearchBar = () => {
-   return (
-        <input type="search" placeholder="Search..." className={styles.SearchBar}/>
-)}
+const SearchBar = ({ onChange }) => {
+	return (
+		<input
+			type='search'
+			placeholder='Search...'
+			className={styles.SearchBar}
+			onChange={onChange}
+		/>
+	);
+};
 
-export default SearchBar
+export default SearchBar;
