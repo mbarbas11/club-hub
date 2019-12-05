@@ -5,10 +5,7 @@
  * @returns {Object[]} filtered clubs with names or keywords that is similar to the key
  */
 export const filterByKeyword = (clubs, key) =>
-  clubs.filter(
-    ({ name, keywords }) =>
-      name.includes(key) || keywords.some(keyword => keyword.includes(key))
-  )
+	clubs.filter(({ name, tags }) => name.includes(key) || tags.some((tag) => tag.includes(key)));
 
 /**
  * Filter clubs with property [active] set to true or false
@@ -17,7 +14,7 @@ export const filterByKeyword = (clubs, key) =>
  * @returns {Object[]} filtered clubs with property [active] set to true or false
  */
 export const filterByStatus = (clubs, status) =>
-  clubs.filter(({ active }) => active === status)
+	clubs.filter(({ active }) => (status === null ? true : status === active));
 
 /**
  * Sort clubs by type of 'rating' or 'favorite'. Default to be ascending
@@ -27,10 +24,11 @@ export const filterByStatus = (clubs, status) =>
  * @returns {Object[]} sorted clubs by type of 'rating' or 'favorite. Default to be ascending
  */
 export const sortBy = (clubs, type, order) =>
-  [...clubs].sort((a, b) => {
-    if (order.toLowerCase() === "des") {
-      return a[type] < b[type]
-    } else {
-      return a[type] > b[type]
-    }
-  })
+	[...clubs].sort((a, b) => {
+		console.log({ type, order });
+		if (order.toLowerCase() === 'des') {
+			return a[type] < b[type];
+		} else {
+			return a[type] > b[type];
+		}
+	});
