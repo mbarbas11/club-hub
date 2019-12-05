@@ -3,13 +3,13 @@ import styles from "./ClubPage.module.css";
 //import { clubEndpoint, clubID } from "../../apis/endpoints";
 
 const ClubPage = props => {
-  const [club, setClubData] = useState({}); //club is state where club data is stored //JSON.stringify(club) // {club.name}...
+  const [club, setClubData] = useState({}); //club is state where club data is stored 
 
   async function getClub() {
     const { id } = props.match.params;
     const res = await fetch(`http://localhost:3000/club/${id}`);
 
-    console.log({ HERE: club });
+    
 
     res
       .json()
@@ -21,7 +21,7 @@ const ClubPage = props => {
     getClub();
   }, []);
 
-  return <div className={styles.root}>ClubPage</div>;
+return <div className={styles.root}>ClubPage</div>; //JSON.stringify(club) // {club.name}...
 };
 
 export default ClubPage;
