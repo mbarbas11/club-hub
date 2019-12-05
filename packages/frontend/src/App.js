@@ -8,7 +8,8 @@ import {
   NotFoundPage,
   LoginPage,
   RegisterPage,
-  SettingPage
+  SettingPage,
+  SearchClubPage
 } from './pages'
 
 const App = () => {
@@ -18,7 +19,8 @@ const App = () => {
         <AppBar />
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route path="/club/:id" component={ClubPage} />
+          <Route path="/club" component={SearchClubPage}/>
+          <Route path="/clubs/:id" component={ClubPage} />
           <Route path="/login" component={LoginPage} />
           <Route path="/register" component={RegisterPage} />
           <Route path="/setting" component={SettingPage} />

@@ -15,18 +15,23 @@ router.post("/", (req, res) => {
   //addClub
   addClub(req.body)
     .then(result => {
-      if (result === "successfully added club") {
+      if (result === "successful") {
         res.send(result);
         return true;
       } else {
+        res.status(400).send({
+          error:{
+            message: result.error
+          }
+        })
         return;
       }
     })
     .catch(e => {
       console.log("error:", e, e.message);
-      res.status(400).send({
+      res.status(500).send({
         error: {
-          message: e.message
+          message: "something wrong, contact developer"
         }
       });
     });
@@ -37,15 +42,14 @@ router.get("/:id", (req, res) => {
   //getClub
   getClub(req.params.id)
     .then(result => {
-      console.log({expected: result})
       res.send(result);
       return true;
     })
     .catch(e => {
       console.log("error:", e, e.message);
-      res.status(400).send({
+      res.status(500).send({
         error: {
-          message: e.message
+          message: "something wrong, contact developer"
         }
       });
     });
@@ -61,9 +65,9 @@ router.get("/", (req, res) => {
     })
     .catch(e => {
       console.log("error:", e, e.message);
-      res.status(400).send({
+      res.status(500).send({
         error: {
-          message: e.message
+          message: "something wrong, contact developer"
         }
       });
     });
@@ -71,20 +75,26 @@ router.get("/", (req, res) => {
 
 router.put("/:id", (req, res) => {
   //editClub
+  console.log({body :req.body})
   editClub(req.params.id, req.body)
     .then(result => {
-      if (result === "successfully updated club") {
+      if (result === "successful") {
         res.send(result);
         return true;
       } else {
+        res.status(400).send({
+          error:{
+            message: result.error
+          }
+        })
         return;
       }
     })
     .catch(e => {
       console.log("error:", e, e.message);
-      res.status(400).send({
+      res.status(500).send({
         error: {
-          message: e.message
+          message: "something wrong, contact developer"
         }
       });
     });
@@ -94,7 +104,7 @@ router.delete("/:id", (req, res) => {
   //deleteClub
   deleteClub(req.params.id)
     .then(result => {
-      if (result === "successfully deleted club") {
+      if (result === "successful") {
         res.send(result);
         return true;
       } else {

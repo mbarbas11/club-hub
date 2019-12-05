@@ -5,15 +5,11 @@ import { clubEndpoint, clubID } from "../../apis/endpoints";
 const ClubPage = () => {
   const [club, setClubData] = useState({});
 
-  
   async function getClub() {
-    const res = await fetch(
-      clubEndpoint
-    );
+    const res = await fetch(clubID);
 
-    console.log(clubID)
-    //const res2 = await fetch( clubID);
-    //console.log({here: res2})
+    console.log({ HERE: res.data });
+    
 
     res
       .json()
@@ -23,9 +19,9 @@ const ClubPage = () => {
 
   useEffect(() => {
     getClub();
-  },[]);
+  }, []);
 
-  return <div className={styles.root}>Club name: {club.name}</div>;
+  return <div className={styles.root}>{club.name}</div>;
 };
 
 export default ClubPage;
