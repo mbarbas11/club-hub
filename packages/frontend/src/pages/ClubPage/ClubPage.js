@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import styles from "./ClubPage.module.css";
-import { clubEndpoint, clubID } from "../../apis/endpoints";
+//import { clubEndpoint, clubID } from "../../apis/endpoints";
 
-const ClubPage = () => {
-  const [club, setClubData] = useState({});
+const ClubPage = props => {
+  const [club, setClubData] = useState({}); //club is state where club data is stored //JSON.stringify(club) // {club.name}...
 
   async function getClub() {
-    const res = await fetch(clubID);
+    const { id } = props.match.params;
+    const res = await fetch(`http://localhost:3000/club/${id}`);
 
-    console.log({ HERE: res.data });
-    
+    console.log({ HERE: club });
 
     res
       .json()
@@ -21,7 +21,7 @@ const ClubPage = () => {
     getClub();
   }, []);
 
-  return <div className={styles.root}>{club.name}</div>;
+  return <div className={styles.root}>ClubPage</div>;
 };
 
 export default ClubPage;
